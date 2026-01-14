@@ -1206,21 +1206,121 @@
                 }
                 selectedItems[id] = { qty: 1 };
             }
-            render();
+            
+            // Full render needed for menu item selection changes (to update styling)
+            renderWithScrollPreserve();
         }
 
         // Update quantity
         function updateQty(id, delta) {
             if (selectedItems[id]) {
                 selectedItems[id].qty = Math.max(1, selectedItems[id].qty + delta);
-                render();
+                updateCartDisplay();
             }
         }
 
         // Remove item
         function removeItem(id) {
             delete selectedItems[id];
+            updateCartDisplay();
+        }
+        
+        // Update only the cart display without full re-render
+        function updateCartDisplay() {
+            const { selected, subtotal, tax, total } = calculateTotals();
+            
+            // Update order header count
+            const orderHeader = document.querySelector('.order-header p');
+            if (orderHeader) {
+                orderHeader.textContent = `${selected.length} item(s) selected`;
+            }
+            
+            // Update order items list
+            const orderContent = document.querySelector('.order-content');
+            if (!orderContent) return;
+            
+            if (selected.length === 0) {
+                orderContent.innerHTML = `
+                    <div class="empty-order">
+                        <div class="icon">🍽️</div>
+                        <p>No items selected</p>
+                        <p>Click on items to add them</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            orderContent.innerHTML = `
+                <div class="order-items">
+                    ${selected.map(item => `
+                        <div class="order-item">
+                            <div class="order-item-top">
+                                <div>
+                                    <div class="order-item-name">${item.name}</div>
+                                    ${item.boxSize !== 'Per Order' ? `<div class="order-item-box">📦 ${item.boxSize}</div>` : `<div class="order-item-box">🍽️ Per Order</div>`}
+                                </div>
+                                <button class="remove-btn" onclick="event.stopPropagation(); removeItem(${item.id})">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="order-item-bottom">
+                                <div class="qty-controls">
+                                    <span class="qty-label">${item.boxSize !== 'Per Order' ? 'Boxes:' : 'Qty:'}</span>
+                                    <div class="qty-wrapper">
+                                        <button class="qty-btn" onclick="event.stopPropagation(); updateQty(${item.id}, -1)">−</button>
+                                        <span class="qty-value">${item.qty}</span>
+                                        <button class="qty-btn" onclick="event.stopPropagation(); updateQty(${item.id}, 1)">+</button>
+                                    </div>
+                                </div>
+                                <div class="item-subtotal">
+                                    <div class="each">৳${item.price.toFixed(0)}/${item.boxSize !== 'Per Order' ? 'box' : 'order'}</div>
+                                    <div class="total">৳${(item.price * item.qty).toFixed(0)}</div>
+                                    ${item.boxSize !== 'Per Order' && item.totalUnits ? `<div class="total-units">= ${item.totalUnits} ${item.unit}</div>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h4>📊 Order Summary</h4>
+                    ${selected.map(item => `
+                        <div class="summary-item">
+                            <span>${item.name}</span>
+                            <span>${item.qty} ${item.boxSize !== 'Per Order' ? (item.qty > 1 ? 'boxes' : 'box') : ''}${item.boxSize !== 'Per Order' && item.totalUnits ? ` = ${item.totalUnits} ${item.unit}` : ''}</span>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="order-totals">
+                    <div class="total-row">
+                        <span class="label">Subtotal</span>
+                        <span class="value">৳${subtotal.toFixed(0)}</span>
+                    </div>
+                    <div class="grand-total">
+                        <span class="label">Total (excl. delivery)</span>
+                        <span class="value">৳${subtotal.toFixed(0)}</span>
+                    </div>
+                </div>
+
+                <!-- Delivery Information Form Container -->
+                <div id="deliveryFormContainer"></div>
+            `;
+            
+            // Re-render delivery form
+            renderDeliveryForm();
+        }
+        
+        // Render while preserving scroll position (for menu item toggles)
+        function renderWithScrollPreserve() {
+            const scrollPos = window.scrollY || window.pageYOffset;
             render();
+            requestAnimationFrame(() => {
+                window.scrollTo(0, scrollPos);
+            });
         }
 
         // Calculate totals
@@ -1518,8 +1618,8 @@
                     <div class="modal-content" onclick="event.stopPropagation()">
                         <div class="modal-header">
                             <div class="success-icon">🎉</div>
-                            <h3>Order Confirmed!</h3>
-                            <p>Please save your order ID and send it to us</p>
+                            <h3>Order Generated!</h3>
+                            <p>Please copy your order ID and send it to us</p>
                         </div>
                         <div class="modal-body">
                             <div class="order-id-section">
