@@ -34,8 +34,27 @@ export function toggleItem(id) {
         });
     }
     
-    // Full render needed for menu item selection changes (to update styling)
-    renderWithScrollPreserve();
+    // Update cart display and menu item styling without full page re-render
+    updateMenuItemStyling(id);
+    updateCartDisplay();
+}
+
+// Update only the specific menu item styling in the DOM
+function updateMenuItemStyling(itemId) {
+    const selectedItems = State.getSelectedItems();
+    const menuItems = document.querySelectorAll('.menu-item');
+    
+    menuItems.forEach(elem => {
+        // Try to extract the item ID from the element's onclick attribute or data attribute
+        const onclickAttr = elem.getAttribute('onclick');
+        if (onclickAttr && onclickAttr.includes(`toggleItem(${itemId})`)) {
+            if (selectedItems[itemId]) {
+                elem.classList.add('selected');
+            } else {
+                elem.classList.remove('selected');
+            }
+        }
+    });
 }
 
 // Update quantity
