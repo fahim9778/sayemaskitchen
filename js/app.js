@@ -30,6 +30,8 @@ window.appFunctions = {
     toggleItemsDetails: UI.toggleItemsDetails,
     closeModal: UI.closeModal,
     closeModalOnly: UI.closeModalOnly,
+    filterMenu: UI.filterMenu,
+    scrollToCart: UI.scrollToCart,
     
     // Form handlers
     updateCustomerInfo: (field, value) => {

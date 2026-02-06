@@ -185,14 +185,24 @@ export function render() {
 
         <div class="main-grid">
             <div class="menu-section">
+                <!-- Search Bar -->
+                <div class="search-bar">
+                    <input 
+                        type="text" 
+                        id="menuSearch" 
+                        placeholder="🔍 Search menu items..." 
+                        oninput="window.appFunctions.filterMenu(this.value)"
+                    />
+                </div>
+
                 ${categories.map(category => `
-                    <div class="category-card">
+                    <div class="category-card" data-category="${category}">
                         <div class="category-header">
                             <h2>${category}</h2>
                         </div>
                         <div class="category-items">
                             ${menuItems.filter(item => item.category === category).map(item => `
-                                <div class="menu-item ${selectedItems[item.id] ? 'selected' : ''}" onclick="window.appFunctions.toggleItem(${item.id})">
+                                <div class="menu-item ${selectedItems[item.id] ? 'selected' : ''}" data-item-name="${item.name.toLowerCase()}" onclick="window.appFunctions.toggleItem(${item.id})">
                                     <div class="item-left">
                                         <div class="checkbox">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
@@ -215,7 +225,7 @@ export function render() {
                 `).join('')}
             </div>
 
-            <div class="order-panel">
+            <div class="order-panel" id="orderPanel">
                 <div class="order-card">
                     <div class="order-header">
                         <h2>📋 Your Order</h2>
@@ -293,8 +303,24 @@ export function render() {
         </div>
 
         <footer>
-            Sayema's Kitchen • Powered by Google Sheets
+            Sayema's Kitchen • Powered by AI Agents •
         </footer>
+
+        <!-- Mobile Navigation Buttons -->
+        <div class="mobile-nav-buttons">
+            <button class="mobile-btn scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Back to Top">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 15l-6-6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Top</span>
+            </button>
+            <button class="mobile-btn scroll-to-cart" onclick="window.appFunctions.scrollToCart()" title="Go to Cart">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 2L9 6M15 2L15 6M6 8L18 8C19.1046 8 20 8.89543 20 10L20 18C20 19.1046 19.1046 20 18 20L6 20C4.89543 20 4 19.1046 4 18L4 10C4 8.89543 4.89543 8 6 8Z" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Cart</span>
+            </button>
+        </div>
     `;
 
     // Render delivery form separately if items are selected
@@ -553,4 +579,50 @@ export function showLoading() {
             <p>${randomMessage}</p>
         </div>
     `;
+}
+
+// Filter menu items based on search query
+export function filterMenu(query) {
+    const searchTerm = query.toLowerCase().trim();
+    const categoryCards = document.querySelectorAll('.category-card');
+    
+    if (!searchTerm) {
+        // Show all items and categories
+        categoryCards.forEach(card => {
+            card.style.display = 'block';
+            const items = card.querySelectorAll('.menu-item');
+            items.forEach(item => item.style.display = 'flex');
+        });
+        return;
+    }
+    
+    // Filter items
+    categoryCards.forEach(card => {
+        const items = card.querySelectorAll('.menu-item');
+        let hasVisibleItems = false;
+        
+        items.forEach(item => {
+            const itemName = item.getAttribute('data-item-name');
+            if (itemName && itemName.includes(searchTerm)) {
+                item.style.display = 'flex';
+                hasVisibleItems = true;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        
+        // Hide category if no items match
+        card.style.display = hasVisibleItems ? 'block' : 'none';
+    });
+}
+
+// Scroll to cart (for mobile)
+export function scrollToCart() {
+    const orderPanel = document.getElementById('orderPanel');
+    if (orderPanel) {
+        const yOffset = -10; // Small offset from the very top
+        const y = orderPanel.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        
+        window.scrollTo({ top: y, behavior: 'smooth' });
+    }
 }
