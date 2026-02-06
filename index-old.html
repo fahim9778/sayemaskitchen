@@ -1,0 +1,2230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sayema's Kitchen - Menu Order</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(251, 146, 60, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(234, 88, 12, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(251, 191, 36, 0.08) 0%, transparent 40%),
+                linear-gradient(135deg, #fff9f5 0%, #fff1e6 50%, #ffe8d1 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                /* Chef hat - top left */
+                url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23ff6b35' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round' opacity='0.18'%3E%3Cpath d='M30 48 Q29 45 30 42 Q31 39 33 37 Q35 36 37 36 Q38 33 40 31 Q43 30 45 30 Q46 29 48 28 Q52 28 55 30 Q56 28 58 28 Q62 28 64 30 Q65 28 68 28 Q70 28 72 29 Q75 30 76 33 Q79 32 81 34 Q84 35 85 37 Q87 39 88 42 Q89 45 88 48 L88 57 Q88 60 85 61 L35 61 Q32 60 32 57 Z'/%3E%3Cpath d='M35 57 L85 57 L84 69 Q84 71 82 71 L38 71 Q36 71 36 69 Z'/%3E%3C/g%3E%3C/svg%3E"),
+                /* Spoon - left upper */
+                url("data:image/svg+xml,%3Csvg width='90' height='90' viewBox='0 0 90 90' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23fb923c' stroke-width='2.5' fill='none' stroke-linecap='round' opacity='0.16'%3E%3Cellipse cx='45' cy='30' rx='9' ry='12' /%3E%3Cpath d='M45 42 Q44 50 45 58 Q46 66 45 73' /%3E%3C/g%3E%3C/svg%3E"),
+                /* Fork - top right */
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23ff8c42' stroke-width='2.2' fill='none' stroke-linecap='round' opacity='0.15'%3E%3Cpath d='M39 25 L38 50' /%3E%3Cpath d='M45 25 L44 50' /%3E%3Cpath d='M51 25 L50 50' /%3E%3Cpath d='M57 25 L58 50' /%3E%3Cpath d='M36 50 Q42 53 48 50 Q54 53 60 50 L59 72 Q59 75 56 75 L40 75 Q37 75 37 72 Z' /%3E%3C/g%3E%3C/svg%3E"),
+                /* Pot - center right */
+                url("data:image/svg+xml,%3Csvg width='110' height='110' viewBox='0 0 110 110' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23ff6b35' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round' opacity='0.17'%3E%3Crect x='35' y='45' width='40' height='30' rx='4' /%3E%3Cpath d='M32 45 L78 45' /%3E%3Cpath d='M30 42 Q30 40 32 40 L68 40 Q70 40 70 42' /%3E%3Cpath d='M42 52 Q45 55 48 52 Q50 55 53 52 Q55 55 58 52' /%3E%3C/g%3E%3C/svg%3E"),
+                /* Heart - middle */
+                url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23ff8c42' stroke-width='2' fill='none' stroke-linecap='round' opacity='0.14'%3E%3Cpath d='M40 52 Q35 47 35 42 Q35 37 38 35 Q41 34 43 37 Q45 34 48 35 Q51 37 51 42 Q51 47 46 52 L40 57 L34 52 Q29 47 29 42 Q29 37 32 35 Q35 34 37 37' /%3E%3C/g%3E%3C/svg%3E"),
+                /* Whisk - left lower */
+                url("data:image/svg+xml,%3Csvg width='95' height='95' viewBox='0 0 95 95' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23ff8c42' stroke-width='2.2' fill='none' stroke-linecap='round' opacity='0.15'%3E%3Cpath d='M48 25 L47 45' /%3E%3Cpath d='M43 28 Q41 35 43 43' /%3E%3Cpath d='M53 28 Q55 35 53 43' /%3E%3Cpath d='M39 30 Q37 36 39 41' /%3E%3Cpath d='M57 30 Q59 36 57 41' /%3E%3Cpath d='M48 45 L48 70' stroke-width='3' /%3E%3C/g%3E%3C/svg%3E"),
+                /* Pan - bottom right */
+                url("data:image/svg+xml,%3Csvg width='105' height='105' viewBox='0 0 105 105' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23fb923c' stroke-width='2.5' fill='none' stroke-linecap='round' opacity='0.16'%3E%3Cellipse cx='45' cy='50' rx='18' ry='15' /%3E%3Cpath d='M61 48 Q70 47 78 48' /%3E%3Cpath d='M61 53 Q70 54 78 53' /%3E%3C/g%3E%3C/svg%3E"),
+                /* Knife - right lower */
+                url("data:image/svg+xml,%3Csvg width='85' height='85' viewBox='0 0 85 85' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23ff6b35' stroke-width='2.5' fill='none' stroke-linecap='round' opacity='0.15'%3E%3Cpath d='M30 25 L50 45' /%3E%3Crect x='49' y='44' width='18' height='4' rx='1' transform='rotate(45 58 46)' /%3E%3C/g%3E%3C/svg%3E"),
+                /* Rolling Pin - bottom center */
+                url("data:image/svg+xml,%3Csvg width='95' height='95' viewBox='0 0 95 95' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23ff8c42' stroke-width='2.5' fill='none' stroke-linecap='round' opacity='0.14'%3E%3Cline x1='25' y1='50' x2='70' y2='50' /%3E%3Ccircle cx='22' cy='50' r='3' /%3E%3Ccircle cx='73' cy='50' r='3' /%3E%3C/g%3E%3C/svg%3E"),
+                /* Cake - top center */
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23ff6b35' stroke-width='2.2' fill='none' stroke-linecap='round' opacity='0.16'%3E%3Crect x='35' y='50' width='30' height='20' rx='2' /%3E%3Cpath d='M32 50 L68 50 L65 45 L35 45 Z' /%3E%3Cpath d='M50 45 L50 38' /%3E%3Cellipse cx='50' cy='36' rx='2' ry='3' /%3E%3C/g%3E%3C/svg%3E"),
+                /* Bowl - left middle */
+                url("data:image/svg+xml,%3Csvg width='95' height='95' viewBox='0 0 95 95' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23fb923c' stroke-width='2.5' fill='none' stroke-linecap='round' opacity='0.15'%3E%3Cpath d='M30 45 Q30 60 47 60 Q65 60 65 45' /%3E%3Cline x1='28' y1='45' x2='67' y2='45' /%3E%3C/g%3E%3C/svg%3E"),
+                /* Ramen bowl - right middle */
+                url("data:image/svg+xml,%3Csvg width='105' height='105' viewBox='0 0 105 105' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23ff8c42' stroke-width='2.2' fill='none' stroke-linecap='round' opacity='0.16'%3E%3Cpath d='M30 50 Q30 65 52 65 Q75 65 75 50' /%3E%3Cline x1='28' y1='50' x2='77' y2='50' /%3E%3Cpath d='M40 42 Q42 38 45 42 Q47 38 50 42 Q52 38 55 42' /%3E%3Cline x1='45' y1='42' x2='45' y2='50' /%3E%3Cline x1='50' y1='42' x2='50' y2='50' /%3E%3C/g%3E%3C/svg%3E"),
+                /* Noodles - bottom left */
+                url("data:image/svg+xml,%3Csvg width='90' height='90' viewBox='0 0 90 90' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23fb923c' stroke-width='2.2' fill='none' stroke-linecap='round' opacity='0.15'%3E%3Cpath d='M30 45 Q35 35 40 45 Q45 55 50 45 Q55 35 60 45' /%3E%3Cpath d='M30 52 Q35 42 40 52 Q45 62 50 52 Q55 42 60 52' /%3E%3Cpath d='M30 59 Q35 49 40 59 Q45 69 50 59 Q55 49 60 59' /%3E%3C/g%3E%3C/svg%3E");
+            background-size: 120px 120px, 90px 90px, 100px 100px, 110px 110px, 80px 80px, 95px 95px, 105px 105px, 85px 85px, 95px 95px, 100px 100px, 95px 95px, 105px 105px, 90px 90px;
+            background-position: 
+                8% 10%,      /* chef hat - top left */
+                3% 35%,      /* spoon - left upper */
+                85% 8%,      /* fork - top right */
+                90% 45%,     /* pot - center right */
+                45% 50%,     /* heart - middle */
+                12% 75%,     /* whisk - left lower */
+                82% 88%,     /* pan - bottom right */
+                92% 65%,     /* knife - right lower */
+                48% 92%,     /* rolling pin - bottom center */
+                50% 12%,     /* cake - top center */
+                6% 52%,      /* bowl - left middle */
+                88% 25%,     /* ramen - right middle */
+                18% 88%;     /* noodles - bottom left */
+            background-repeat: no-repeat;
+            opacity: 1;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        body > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            color: #78350f;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #a16207;
+            font-size: 1rem;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #dcfce7;
+            color: #166534;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+        }
+
+        .status-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        }
+
+        .fb-link-btn {
+            background: linear-gradient(135deg, #1877f2, #0d65d9);
+            color: white;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .fb-link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4);
+        }
+
+        .order-warning-banner {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            color: #991b1b;
+            padding: 10px 16px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #fecaca;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .cart-warning-top {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 3fr 2fr;
+            }
+        }
+
+        .menu-section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            padding: 16px 24px;
+        }
+
+        .category-header h2 {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .category-items {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #f9fafb;
+            border: 2px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: #fef3c7;
+            border-color: #fcd34d;
+        }
+
+        .menu-item.selected {
+            background: #fef3c7;
+            border-color: #f59e0b;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .item-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .menu-item.selected .checkbox {
+            background: #f59e0b;
+            border-color: #f59e0b;
+        }
+
+        .checkbox svg {
+            width: 14px;
+            height: 14px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .menu-item.selected .checkbox svg {
+            opacity: 1;
+        }
+
+        .item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .item-name {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .menu-item.selected .item-name {
+            color: #78350f;
+        }
+
+        .item-box-size {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .menu-item.selected .item-box-size {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .item-price-section {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .item-price {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #9ca3af;
+        }
+
+        .menu-item.selected .item-price {
+            color: #d97706;
+        }
+
+        .price-per {
+            font-size: 0.7rem;
+            color: #9ca3af;
+        }
+
+        /* Order Panel */
+        .order-panel {
+            /* Sticky only on larger screens where it fits */
+            align-self: start;
+        }
+
+        @media (min-width: 1024px) {
+            .order-panel {
+                position: sticky;
+                top: 20px;
+                max-height: calc(100vh - 40px);
+                overflow-y: auto;
+            }
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .order-header {
+            background: linear-gradient(135deg, #10b981, #14b8a6);
+            padding: 20px 24px;
+        }
+
+        .order-header h2 {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .order-header p {
+            color: #a7f3d0;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .order-content {
+            padding: 24px;
+        }
+
+        .empty-order {
+            text-align: center;
+            padding: 48px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-order .icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .order-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .order-item {
+            background: linear-gradient(135deg, #ecfdf5, #f0fdfa);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .order-item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .order-item-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .order-item-box {
+            font-size: 0.8rem;
+            color: #0369a1;
+            background: #e0f2fe;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-top: 4px;
+            display: inline-block;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #f87171;
+            cursor: pointer;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+
+        .remove-btn:hover {
+            color: #dc2626;
+        }
+
+        .order-item-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .qty-wrapper {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: #6b7280;
+            transition: background 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .qty-value {
+            width: 40px;
+            text-align: center;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .item-subtotal {
+            text-align: right;
+        }
+
+        .item-subtotal .each {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .item-subtotal .total {
+            font-weight: 700;
+            color: #059669;
+            font-size: 1.1rem;
+        }
+
+        .item-subtotal .total-units {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        /* Totals */
+        .order-totals {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 2px dashed #e5e7eb;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .total-row .label {
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .total-row .value {
+            color: #1f2937;
+            font-weight: 600;
+        }
+
+        .grand-total {
+            background: linear-gradient(135deg, #10b981, #14b8a6);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .grand-total .label {
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .grand-total .value {
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            margin-top: 16px;
+            padding: 16px;
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .place-order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .place-order-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Delivery Form */
+        .delivery-form {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #e5e7eb;
+        }
+
+        .delivery-form h4 {
+            font-size: 1rem;
+            color: #059669;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #374151;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .form-group label .required {
+            color: #dc2626;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
+
+        .form-group input.error,
+        .form-group textarea.error,
+        .form-group select.error {
+            border-color: #dc2626;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group select {
+            cursor: pointer;
+            background: white;
+        }
+
+        .phone-input-wrapper {
+            display: flex;
+            align-items: center;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .phone-input-wrapper:focus-within {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
+
+        .phone-input-wrapper .country-code {
+            background: #f3f4f6;
+            padding: 12px 14px;
+            font-weight: 600;
+            color: #374151;
+            border-right: 2px solid #e5e7eb;
+        }
+
+        .phone-input-wrapper input {
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+
+        .phone-input-wrapper input:focus {
+            box-shadow: none !important;
+        }
+
+        .refresh-warning {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .refresh-warning .icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .refresh-warning p {
+            font-size: 0.8rem;
+            color: #991b1b;
+            line-height: 1.4;
+        }
+
+        .delivery-note {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-top: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .delivery-note .icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .delivery-note p {
+            font-size: 0.85rem;
+            color: #92400e;
+            line-height: 1.5;
+        }
+
+        /* Order Confirmation Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 480px;
+            width: 100%;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #10b981, #14b8a6);
+            padding: 16px 24px;
+            text-align: center;
+        }
+
+        .modal-header .success-icon {
+            font-size: 2rem;
+            margin-bottom: 6px;
+        }
+
+        .modal-header h3 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .modal-header p {
+            color: #a7f3d0;
+            font-size: 0.85rem;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .order-id-section {
+            background: linear-gradient(135deg, #f0fdfa, #ecfdf5);
+            border: 2px dashed #10b981;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .order-id-label {
+            font-size: 0.85rem;
+            color: #059669;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .order-id-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #047857;
+            letter-spacing: 3px;
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 12px;
+            user-select: all;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .copy-btn.copied {
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+
+        .messenger-instructions {
+            background: #eff6ff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .messenger-instructions h4 {
+            font-size: 0.95rem;
+            color: #1e40af;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .messenger-instructions ol {
+            font-size: 0.9rem;
+            color: #1e3a8a;
+            padding-left: 20px;
+            line-height: 1.8;
+        }
+
+        .messenger-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #0084ff, #0066cc);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .messenger-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 132, 255, 0.4);
+        }
+
+        .close-modal-btn {
+            width: 100%;
+            background: #f3f4f6;
+            color: #6b7280;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .close-modal-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .order-details-summary {
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+        }
+
+        .order-details-summary .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .order-details-summary .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .order-details-summary .detail-label {
+            color: #6b7280;
+        }
+
+        .detail-value-clickable {
+            cursor: pointer;
+            color: #10b981 !important;
+            font-weight: 600;
+            user-select: none;
+        }
+        
+        .detail-value-clickable:hover {
+            text-decoration: underline;
+        }
+        
+        .dropdown-arrow {
+            display: inline-block;
+            margin-left: 6px;
+            font-size: 0.8rem;
+        }
+        
+        .items-details-hidden {
+            display: none;
+        }
+        
+        .items-details-visible {
+            display: block;
+            background: linear-gradient(135deg, #ecfdf5, #f0fdfa);
+            border-radius: 10px;
+            padding: 12px;
+            margin: 12px 0;
+            border-left: 4px solid #10b981;
+        }
+        
+        .items-details-visible .order-item {
+            background: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .items-details-visible .order-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Success Animation */
+        .success-celebration {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .success-celebration .checkmark {
+            font-size: 5rem;
+            animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        @keyframes scaleIn {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+        
+        .success-celebration h2 {
+            color: #059669;
+            font-size: 1.8rem;
+            margin: 20px 0 10px 0;
+        }
+        
+        .success-celebration p {
+            color: #6b7280;
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+        
+        .success-celebration .heart {
+            font-size: 2rem;
+            margin-top: 10px;
+            animation: heartBeat 1s infinite;
+        }
+        
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Order Summary */
+        .order-summary {
+            margin-top: 16px;
+            background: #f0f9ff;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .order-summary h4 {
+            font-size: 0.85rem;
+            color: #0369a1;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #374151;
+            padding: 4px 0;
+        }
+
+        .summary-item span:first-child {
+            color: #6b7280;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #fcd34d;
+            border-top-color: #f59e0b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            color: #78350f;
+            font-weight: 500;
+        }
+
+        /* Setup Guide */
+        .setup-guide {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .setup-guide h3 {
+            color: #1e40af;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .setup-guide ol {
+            color: #1e3a8a;
+            font-size: 0.9rem;
+            padding-left: 20px;
+        }
+
+        .setup-guide li {
+            margin-bottom: 6px;
+        }
+
+        .setup-guide .sheet-example {
+            margin-top: 16px;
+            overflow-x: auto;
+        }
+
+        .setup-guide table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .setup-guide th {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #bfdbfe;
+        }
+
+        .setup-guide td {
+            padding: 10px;
+            border: 1px solid #bfdbfe;
+            background: white;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Firefox Scrollbar */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #9ca3af;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Loading menu...</p>
+        </div>
+    </div>
+
+    <script>
+        // ╔═══════════════════════════════════════════════════════════════════╗
+        // ║  🔗 GOOGLE SHEET INTEGRATION URLS                                 ║
+        // ╠═══════════════════════════════════════════════════════════════════╣
+        // ║  1. GOOGLE_SHEET_CSV_URL: For reading menu items                  ║
+        // ║     - File → Share → Publish to web                               ║
+        // ║     - Select "Comma-separated values (.csv)"                      ║
+        // ║  2. APPS_SCRIPT_URL: For saving orders to sheet                   ║
+        // ║     - Go to Extensions → Apps Script                              ║
+        // ║     - Deploy as Web App                                           ║
+        // ║     - Copy the deployment URL                                     ║
+        // ╚═══════════════════════════════════════════════════════════════════╝
+
+        const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTDe5h2DvTf5EGFZH6OcKObSGwW48VYyYo7fXBOvmob0Hs2hKDiYdHXqcvFnoyJQl5xP1teNDiCVQ8G/pub?gid=0&single=true&output=csv';
+        
+        // ⚠️ IMPORTANT: Replace with your Apps Script deployment URL
+        // See SETUP_GOOGLE_APPS_SCRIPT.md for instructions
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxhfWFUJxyxIqXrgSqR__zXLZ8bwAoQ0gqoizlj3pfx2aRTm9Q20PKbeib0Jk8NV7_xWQ/exec';
+
+        // Demo data (used when no Google Sheet is connected)
+        // Note: Items without "/box" or "per box" will automatically show as "/box"
+        const DEMO_DATA = [
+            { id: 1, name: 'Chicken Shami Kabab', price: 180, category: 'Kabab & Kofta', boxSize: '6 pcs/box', unitQty: 6, unit: 'pcs' },
+            { id: 2, name: 'Beef Shami Kabab', price: 180, category: 'Kabab & Kofta', boxSize: '6 pcs/box', unitQty: 6, unit: 'pcs' },
+            { id: 3, name: 'Chicken Kofta', price: 200, category: 'Kabab & Kofta', boxSize: '6 pcs/box', unitQty: 6, unit: 'pcs' },
+            { id: 4, name: 'Beef Kofta', price: 200, category: 'Kabab & Kofta', boxSize: '6 pcs/box', unitQty: 6, unit: 'pcs' },
+            { id: 5, name: 'Tandoori Chicken', price: 600, category: 'Chicken Item', boxSize: '4 pcs/box', unitQty: 4, unit: 'pcs' },
+            { id: 6, name: 'Chicken Curry', price: 650, category: 'Chicken Item', boxSize: 'Per Order', unitQty: 1, unit: '' },
+            { id: 7, name: 'Chicken Roast', price: 1300, category: 'Chicken Item', boxSize: '8 pcs/box', unitQty: 8, unit: 'pcs' },
+            { id: 8, name: 'Prawn Curry', price: 1500, category: 'Prawn & Fish', boxSize: '1 kg/box', unitQty: 1, unit: 'kg' },
+            { id: 9, name: 'Prawn Malai Curry', price: 1800, category: 'Prawn & Fish', boxSize: '1 kg/box', unitQty: 1, unit: 'kg' },
+            { id: 10, name: 'Ilish Dopeyaja', price: 1500, category: 'Prawn & Fish', boxSize: '6 people', unitQty: 6, unit: 'people' },
+        ];
+
+        // State
+        let menuItems = [];
+        let selectedItems = {};
+        let isDemo = false;
+        let customerInfo = {
+            name: '',
+            phone: '',
+            area: '',
+            address: '',
+            notes: ''
+        };
+        let currentOrderId = null;
+        let orderTimestamp = null; // Set when first item is selected
+        
+        // Unique session seed per browser tab (guarantees uniqueness)
+        const sessionSeed = Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+
+        // Parse CSV
+        function parseCSV(csv) {
+            const lines = csv.trim().split('\n');
+            const headers = parseCSVLine(lines[0]).map(h => h.trim().toLowerCase().replace(/"/g, ''));
+            
+            console.log('CSV Headers found:', headers); // Debug
+            
+            const nameIdx = headers.findIndex(h => h.includes('item') || h.includes('name') || h.includes('product'));
+            const categoryIdx = headers.findIndex(h => h.includes('category') || h.includes('type'));
+            const boxSizeIdx = headers.findIndex(h => h.includes('box') || h.includes('size') || h.includes('min') || h.includes('unit') || h.includes('pack') || h.includes('quantity') || h.includes('serving'));
+            const priceIdx = headers.findIndex(h => h.includes('price') || h.includes('taka') || h.includes('cost'));
+            
+            console.log('Column indices - Item:', nameIdx, 'Category:', categoryIdx, 'Box Size:', boxSizeIdx, 'Price:', priceIdx); // Debug
+
+            const items = [];
+            for (let i = 1; i < lines.length; i++) {
+                // Handle CSV with commas in quoted fields
+                const values = parseCSVLine(lines[i]);
+                if (values[nameIdx]) {
+                    const boxSizeRaw = values[boxSizeIdx]?.replace(/"/g, '') || '1 unit';
+                    const boxSizeDisplay = formatBoxSize(boxSizeRaw);
+                    const { unitQty, unit } = parseBoxSize(boxSizeRaw);
+                    
+                    items.push({
+                        id: i,
+                        name: values[nameIdx]?.replace(/"/g, '') || 'Unknown',
+                        price: parseFloat(values[priceIdx]?.replace(/[^0-9.]/g, '')) || 0,
+                        category: values[categoryIdx]?.replace(/"/g, '') || 'General',
+                        boxSize: boxSizeDisplay,
+                        unitQty: unitQty,
+                        unit: unit
+                    });
+                }
+            }
+            return items;
+        }
+
+        // Parse a single CSV line (handles quoted fields)
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current.trim());
+            return result;
+        }
+
+        // Parse box size string to extract quantity and unit
+        function parseBoxSize(boxSize) {
+            const match = boxSize.match(/(\d+\.?\d*)\s*(\w+)/);
+            if (match) {
+                return {
+                    unitQty: parseFloat(match[1]),
+                    unit: match[2]
+                };
+            }
+            return { unitQty: 1, unit: 'unit' };
+        }
+
+        // Format box size for display (adds "/box" if not specified)
+        function formatBoxSize(boxSize) {
+            // Handle empty or undefined box size
+            if (!boxSize || boxSize.trim() === '' || boxSize === '1 unit') {
+                return 'Per Order';
+            }
+            
+            const lower = boxSize.toLowerCase();
+            // Check if it already has a container specified
+            if (lower.includes('/') || lower.includes('per ') || lower.includes(' box') || 
+                lower.includes(' pack') || lower.includes(' bottle') || lower.includes(' carton') ||
+                lower.includes(' tub') || lower.includes(' bag') || lower.includes(' container') ||
+                lower.includes('people') || lower.includes('person') || lower.includes('serving')) {
+                return boxSize;
+            }
+            // Default to /box
+            return boxSize + '/box';
+        }
+
+        // Fetch menu data
+        async function fetchMenu() {
+            if (!GOOGLE_SHEET_CSV_URL || GOOGLE_SHEET_CSV_URL === 'YOUR_GOOGLE_SHEET_CSV_URL_HERE') {
+                menuItems = DEMO_DATA;
+                isDemo = true;
+                render();
+                return;
+            }
+
+            try {
+                console.log('Fetching from:', GOOGLE_SHEET_CSV_URL);
+                const response = await fetch(GOOGLE_SHEET_CSV_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const csv = await response.text();
+                console.log('CSV data received:', csv.substring(0, 500)); // Debug first 500 chars
+                menuItems = parseCSV(csv);
+                console.log('Parsed items:', menuItems); // Debug
+                if (menuItems.length === 0) throw new Error('No items parsed from CSV');
+                isDemo = false;
+            } catch (e) {
+                console.error('Error fetching sheet:', e);
+                alert('Could not load menu from Google Sheet.\n\nIf opening locally, try using a local server or upload to a web host.\n\nError: ' + e.message);
+                menuItems = DEMO_DATA;
+                isDemo = true;
+            }
+            render();
+        }
+
+        // Toggle item selection
+        function toggleItem(id) {
+            if (selectedItems[id]) {
+                delete selectedItems[id];
+                // Reset timestamp if no items left
+                if (Object.keys(selectedItems).length === 0) {
+                    orderTimestamp = null;
+                }
+            } else {
+                // Set timestamp when first item is added
+                if (Object.keys(selectedItems).length === 0) {
+                    orderTimestamp = Date.now();
+                }
+                selectedItems[id] = { qty: 1 };
+            }
+            
+            // Full render needed for menu item selection changes (to update styling)
+            renderWithScrollPreserve();
+        }
+
+        // Update quantity
+        function updateQty(id, delta) {
+            if (selectedItems[id]) {
+                selectedItems[id].qty = Math.max(1, selectedItems[id].qty + delta);
+                updateCartDisplay();
+            }
+        }
+
+        // Remove item
+        function removeItem(id) {
+            delete selectedItems[id];
+            updateCartDisplay();
+        }
+        
+        // Update only the cart display without full re-render
+        function updateCartDisplay() {
+            const { selected, subtotal, tax, total } = calculateTotals();
+            
+            // Update order header count
+            const orderHeader = document.querySelector('.order-header p');
+            if (orderHeader) {
+                orderHeader.textContent = `${selected.length} item(s) selected`;
+            }
+            
+            // Update order items list
+            const orderContent = document.querySelector('.order-content');
+            if (!orderContent) return;
+            
+            if (selected.length === 0) {
+                orderContent.innerHTML = `
+                    <div class="empty-order">
+                        <div class="icon">🍽️</div>
+                        <p>No items selected</p>
+                        <p>Click on items to add them</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            orderContent.innerHTML = `
+                <div class="order-items">
+                    ${selected.map(item => `
+                        <div class="order-item">
+                            <div class="order-item-top">
+                                <div>
+                                    <div class="order-item-name">${item.name}</div>
+                                    ${item.boxSize !== 'Per Order' ? `<div class="order-item-box">📦 ${item.boxSize}</div>` : `<div class="order-item-box">🍽️ Per Order</div>`}
+                                </div>
+                                <button class="remove-btn" onclick="event.stopPropagation(); removeItem(${item.id})">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="order-item-bottom">
+                                <div class="qty-controls">
+                                    <span class="qty-label">${item.boxSize !== 'Per Order' ? 'Boxes:' : 'Qty:'}</span>
+                                    <div class="qty-wrapper">
+                                        <button class="qty-btn" onclick="event.stopPropagation(); updateQty(${item.id}, -1)">−</button>
+                                        <span class="qty-value">${item.qty}</span>
+                                        <button class="qty-btn" onclick="event.stopPropagation(); updateQty(${item.id}, 1)">+</button>
+                                    </div>
+                                </div>
+                                <div class="item-subtotal">
+                                    <div class="each">৳${item.price.toFixed(0)}/${item.boxSize !== 'Per Order' ? 'box' : 'order'}</div>
+                                    <div class="total">৳${(item.price * item.qty).toFixed(0)}</div>
+                                    ${item.boxSize !== 'Per Order' && item.totalUnits ? `<div class="total-units">= ${item.totalUnits} ${item.unit}</div>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h4>📊 Order Summary</h4>
+                    ${selected.map(item => `
+                        <div class="summary-item">
+                            <span>${item.name}</span>
+                            <span>${item.qty} ${item.boxSize !== 'Per Order' ? (item.qty > 1 ? 'boxes' : 'box') : ''}${item.boxSize !== 'Per Order' && item.totalUnits ? ` = ${item.totalUnits} ${item.unit}` : ''}</span>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="order-totals">
+                    <div class="total-row">
+                        <span class="label">Subtotal</span>
+                        <span class="value">৳${subtotal.toFixed(0)}</span>
+                    </div>
+                    <div class="grand-total">
+                        <span class="label">Total (excl. delivery)</span>
+                        <span class="value">৳${subtotal.toFixed(0)}</span>
+                    </div>
+                </div>
+
+                <!-- Delivery Information Form Container -->
+                <div id="deliveryFormContainer"></div>
+            `;
+            
+            // Re-render delivery form
+            renderDeliveryForm();
+        }
+        
+        // Render while preserving scroll position (for menu item toggles)
+        function renderWithScrollPreserve() {
+            const scrollPos = window.scrollY || window.pageYOffset;
+            render();
+            requestAnimationFrame(() => {
+                window.scrollTo(0, scrollPos);
+            });
+        }
+
+        // Calculate totals
+        function calculateTotals() {
+            let subtotal = 0;
+            const selected = [];
+            
+            for (const id in selectedItems) {
+                const item = menuItems.find(m => m.id == id);
+                if (item) {
+                    const qty = selectedItems[id].qty;
+                    subtotal += item.price * qty;
+                    selected.push({ 
+                        ...item, 
+                        qty,
+                        totalUnits: qty * item.unitQty
+                    });
+                }
+            }
+            
+            const tax = subtotal * 0.1;
+            const total = subtotal + tax;
+            
+            return { selected, subtotal, tax, total };
+        }
+
+        // Update customer info (no re-render to prevent scroll jump)
+        function updateCustomerInfo(field, value) {
+            customerInfo[field] = value;
+            updateConfirmButtonState();
+        }
+
+        // Update just the confirm button state
+        function updateConfirmButtonState() {
+            const btn = document.getElementById('confirmOrderBtn');
+            if (btn) {
+                btn.disabled = !isFormValid();
+            }
+        }
+
+        // Handle phone input (numbers only)
+        function handlePhoneInput(input) {
+            // Remove any non-numeric characters
+            input.value = input.value.replace(/[^0-9]/g, '');
+            // Keep only first 11 digits
+            if (input.value.length > 11) {
+                input.value = input.value.substring(0, 11);
+            }
+            updateCustomerInfo('phone', input.value);
+        }
+
+        // Format timestamp in BD timezone (UTC+6) as YYYY-MM-DD HH:MM:SS
+        function formatBdTimestamp(date = new Date()) {
+            const bdOffsetMinutes = 6 * 60; // UTC+6
+            const utcMillis = date.getTime() + (date.getTimezoneOffset() * 60000);
+            const bdDate = new Date(utcMillis + bdOffsetMinutes * 60000);
+            const pad = (n) => n.toString().padStart(2, '0');
+            return `${bdDate.getFullYear()}-${pad(bdDate.getMonth() + 1)}-${pad(bdDate.getDate())} ${pad(bdDate.getHours())}:${pad(bdDate.getMinutes())}:${pad(bdDate.getSeconds())}`;
+        }
+
+        // Format phone number to 11 digits (01XXXXXXXXX)
+        function formatPhoneNumber(phone) {
+            phone = phone.trim();
+            
+            // If already 11 digits and starts with 0, use as-is
+            if (phone.length === 11 && phone.startsWith('0')) {
+                return phone;
+            }
+            
+            // If 11 digits and starts with 1, replace first digit with 0
+            if (phone.length === 11 && phone.startsWith('1')) {
+                return '0' + phone.substring(1);
+            }
+            
+            // If 10 digits, add 0 prefix
+            if (phone.length === 10) {
+                return '0' + phone;
+            }
+            
+            // Fallback (shouldn't reach here if validation works)
+            return phone;
+        }
+
+        // Validate form
+        function isFormValid() {
+            // Phone can be 10 digits (1XXXXXXXXX) or 11 digits (01XXXXXXXXX)
+            const phoneLength = customerInfo.phone.trim().length;
+            const phoneValid = (phoneLength === 10 || phoneLength === 11) && /^[0-9]{10,11}$/.test(customerInfo.phone);
+            return customerInfo.name.trim() !== '' &&
+                   phoneValid &&
+                   customerInfo.area !== '' &&
+                   customerInfo.address.trim() !== '';
+        }
+
+        // Generate 10-character alphanumeric order ID (guaranteed unique)
+        function generateOrderId() {
+            // Create a string from order details
+            const { selected } = calculateTotals();
+            
+            // Build order signature with multiple uniqueness factors
+            let orderSignature = '';
+            
+            // 1. Session seed (unique per browser tab - guarantees uniqueness)
+            orderSignature += sessionSeed;
+            orderSignature += '|';
+            
+            // 2. Timestamp (unique per order session)
+            orderSignature += orderTimestamp || Date.now();
+            orderSignature += '|';
+            
+            // 3. Items (sorted by id for consistency)
+            const sortedItems = [...selected].sort((a, b) => a.id - b.id);
+            sortedItems.forEach(item => {
+                orderSignature += `${item.id}:${item.qty};`;
+            });
+            
+            // 4. Customer info
+            orderSignature += customerInfo.name.trim().toLowerCase();
+            orderSignature += customerInfo.phone.trim();
+            orderSignature += customerInfo.area;
+            orderSignature += customerInfo.address.trim().toLowerCase();
+            
+            // Generate hash from signature
+            const hash = simpleHash(orderSignature);
+            
+            // Convert to alphanumeric (10 characters)
+            return hashToAlphanumeric(hash, 10);
+        }
+
+        // Simple hash function (djb2 algorithm)
+        function simpleHash(str) {
+            let hash = 5381;
+            for (let i = 0; i < str.length; i++) {
+                hash = ((hash << 5) + hash) + str.charCodeAt(i);
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            return Math.abs(hash);
+        }
+
+        // Convert hash to alphanumeric string
+        function hashToAlphanumeric(hash, length) {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Removed confusing chars: 0,O,1,I
+            let result = '';
+            let num = hash;
+            
+            // Use the hash to generate characters
+            for (let i = 0; i < length; i++) {
+                // Mix in position to ensure all chars are different
+                const mixed = (num + (i * 7919)) % chars.length; // 7919 is a prime
+                result += chars[Math.abs(mixed)];
+                num = Math.floor(num / chars.length) + simpleHash(result);
+            }
+            
+            return result;
+        }
+
+        // Copy to clipboard
+        async function copyOrderId(orderId) {
+            try {
+                await navigator.clipboard.writeText(orderId);
+                const btn = document.getElementById('copyBtn');
+                if (btn) {
+                    btn.innerHTML = '✅ Copied!';
+                    btn.classList.add('copied');
+                    setTimeout(() => {
+                        btn.innerHTML = '📋 Copy Order ID';
+                        btn.classList.remove('copied');
+                    }, 2000);
+                }
+            } catch (err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = orderId;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const btn = document.getElementById('copyBtn');
+                if (btn) {
+                    btn.innerHTML = '✅ Copied!';
+                    btn.classList.add('copied');
+                }
+            }
+        }
+
+        // Generate order summary text for messenger
+        function generateOrderText(orderId) {
+            const { selected, subtotal } = calculateTotals();
+            let text = `🍽️ *SAYEMA'S KITCHEN ORDER*\n`;
+            text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            text += `📋 Order ID: ${orderId}\n\n`;
+            text += `👤 *Customer Details:*\n`;
+            text += `Name: ${customerInfo.name}\n`;
+            text += `Phone: +880${customerInfo.phone}\n`;
+            text += `Area: ${customerInfo.area === 'inside' ? 'Inside Dhaka' : 'Outside Dhaka'}\n`;
+            text += `Address: ${customerInfo.address}\n`;
+            if (customerInfo.notes) {
+                text += `Notes: ${customerInfo.notes}\n`;
+            }
+            text += `\n🛒 *Order Items:*\n`;
+            selected.forEach(item => {
+                text += `• ${item.name} x${item.qty}`;
+                if (item.boxSize !== 'Per Order' && item.totalUnits) {
+                    text += ` (${item.totalUnits} ${item.unit})`;
+                }
+                text += ` - ৳${(item.price * item.qty).toFixed(0)}\n`;
+            });
+            text += `\n💰 Subtotal: ৳${subtotal.toFixed(0)}\n`;
+            text += `🚚 Delivery: To be confirmed\n`;
+            text += `━━━━━━━━━━━━━━━━━━━━━`;
+            return text;
+        }
+
+        // Open messenger with order
+        function openMessenger(orderId) {
+            // Direct link to your Facebook page messenger
+            const messengerUrl = `https://m.me/102361321738656`;
+            window.open(messengerUrl, '_blank');
+        }
+
+        // Confirm order
+        function confirmOrder() {
+            if (!isFormValid()) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            currentOrderId = generateOrderId();
+            
+            // Show modal for review - order will be saved only when "Place Order" is clicked
+            showOrderConfirmationModal(currentOrderId);
+        }
+
+        // Save order to Google Sheet
+        async function saveOrderToSheet(orderId) {
+            if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL') {
+                console.warn('Apps Script URL not configured. Order will not be saved to sheet.');
+                return;
+            }
+
+            try {
+                const { selected, subtotal, total } = calculateTotals();
+                
+                // Format items list
+                const itemsList = selected.map(item => 
+                    `${item.name} x${item.qty}`
+                ).join(', ');
+                
+                // Format order time in BD timezone (UTC+6)
+                const orderTime = formatBdTimestamp();
+                
+                // Prepare order data (send exactly what customer typed)
+                const orderData = {
+                    orderId: orderId,
+                    orderTime: orderTime,
+                    customerName: customerInfo.name,
+                    phone: customerInfo.phone, // Raw input; set Sheet column to Plain Text to preserve leading 0
+                    address: customerInfo.address,
+                    itemsList: itemsList,
+                    subtotal: subtotal.toFixed(0),
+                    deliveryCharge: 0, // Will be updated later
+                    area: customerInfo.area
+                };
+                
+                // Send to Apps Script
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(orderData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    console.log('✅ Order saved to Google Sheet successfully');
+                } else {
+                    console.error('❌ Error saving order:', result.message);
+                }
+                
+            } catch (error) {
+                console.error('❌ Error saving order to sheet:', error);
+                // Don't show alert - order confirmation still works
+                // Just notify in console for debugging
+            }
+        }
+
+        // Show order confirmation modal
+        function showOrderConfirmationModal(orderId) {
+            const { selected, subtotal } = calculateTotals();
+            
+            const itemsHtml = selected.map(item => `
+                <div class="order-item">
+                    <div class="order-item-top">
+                        <div>
+                            <div class="order-item-name">${item.name}</div>
+                            ${item.boxSize !== 'Per Order' ? `<div class="order-item-box">📦 ${item.boxSize}</div>` : `<div class="order-item-box">🍽️ Per Order</div>`}
+                        </div>
+                    </div>
+                    <div class="order-item-bottom">
+                        <div class="qty-controls">
+                            <span class="qty-label">${item.boxSize !== 'Per Order' ? 'Boxes:' : 'Qty:'}</span>
+                            <span class="qty-value">${item.qty}</span>
+                        </div>
+                        <div class="item-subtotal">
+                            <div class="total">৳${(item.price * item.qty).toFixed(0)}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal(event)">
+                    <div class="modal-content" onclick="event.stopPropagation()">
+                        <div class="modal-header">
+                            <div class="success-icon">🎉</div>
+                            <h3>Order Generated!</h3>
+                            <p>Review your order and place it</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="order-id-section">
+                                <div class="order-id-label">YOUR ORDER ID</div>
+                                <div class="order-id-value" id="orderIdDisplay">${orderId}</div>
+                            </div>
+                            
+                            <div class="order-details-summary">
+                                <div class="detail-row">
+                                    <span class="detail-label">Name:</span>
+                                    <span class="detail-value">${customerInfo.name}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Phone:</span>
+                                    <span class="detail-value">+880${customerInfo.phone.replace(/^0/, '')}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Area:</span>
+                                    <span class="detail-value">${customerInfo.area === 'inside' ? 'Inside Dhaka' : 'Outside Dhaka'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Items:</span>
+                                    <span style="display: flex; align-items: center; justify-content: space-between;">
+                                        <span class="detail-value detail-value-clickable" onclick="toggleItemsDetails()">${selected.length} item(s) <span class="dropdown-arrow">▼</span></span>
+                                        <button class="place-order-btn" style="background: linear-gradient(135deg, #f59e0b, #ea580c); padding: 6px 14px; font-size: 0.85rem; margin: 0; width: auto;" onclick="editOrder()">✏️ Edit</button>
+                                    </span>
+                                </div>
+                                <div id="itemsDetailsContainer" class="items-details-hidden">
+                                    ${itemsHtml}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Subtotal:</span>
+                                    <span class="detail-value">৳${subtotal.toFixed(0)}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Delivery Charge:</span>
+                                    <span class="detail-value">To be confirmed</span>
+                                </div>
+                            </div>
+                            
+                            <button class="place-order-btn" style="width: 100%; background: linear-gradient(135deg, #10b981, #14b8a6); margin-top: 20px; padding: 16px; font-size: 1.1rem;" onclick="placeOrderConfirmed('${orderId}')">
+                                ✅ Place Order
+                            </button>
+                            
+                            <button class="messenger-btn" onclick="openMessenger('${orderId}')" style="margin-top: 12px;">
+                                💬 Let's Chat on Messenger
+                            </button>
+                            
+                            <button class="close-modal-btn" onclick="closeModalOnly()">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add modal to body
+            const modalContainer = document.createElement('div');
+            modalContainer.id = 'orderModal';
+            modalContainer.innerHTML = modalHtml;
+            document.body.appendChild(modalContainer);
+            
+            // Scroll to top to show modal
+            window.scrollTo(0, 0);
+        }
+        
+        // Toggle items details visibility
+        function toggleItemsDetails() {
+            const container = document.getElementById('itemsDetailsContainer');
+            if (container) {
+                container.classList.toggle('items-details-hidden');
+                container.classList.toggle('items-details-visible');
+                
+                // Rotate arrow
+                const arrow = document.querySelector('.dropdown-arrow');
+                if (arrow) {
+                    arrow.style.transform = container.classList.contains('items-details-visible') ? 'rotate(180deg)' : 'rotate(0deg)';
+                    arrow.style.transition = 'transform 0.3s ease';
+                }
+            }
+        }
+        
+        // Place order confirmed - now save to Google Sheet
+        function placeOrderConfirmed(orderId) {
+            // Show loading state on button
+            const placeOrderBtn = event.target;
+            const originalText = placeOrderBtn.innerHTML;
+            placeOrderBtn.innerHTML = '⏳ Placing Order...';
+            placeOrderBtn.disabled = true;
+            placeOrderBtn.style.opacity = '0.7';
+            placeOrderBtn.style.cursor = 'not-allowed';
+            
+            saveOrderToSheet(orderId);
+            
+            // Transform modal to success screen after a brief moment
+            setTimeout(() => {
+                const modalContent = document.querySelector('.modal-content');
+                if (modalContent) {
+                    modalContent.innerHTML = `
+                        <div class="success-celebration">
+                            <div class="checkmark">✅</div>
+                            <h2>🎊 Order Placed Successfully! 🎊</h2>
+                            <p>We'll contact you shortly!</p>
+                            <div class="heart">❤️</div>
+                            <a href="https://www.facebook.com/sayemaskitchen/" target="_blank" class="fb-link-btn" style="display: inline-block; margin-top: 20px; text-decoration: none;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white" style="vertical-align: middle; margin-right: 6px;"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                                Visit our Facebook Page
+                            </a>
+                        </div>
+                    `;
+                    
+                    // Auto-close after 6 seconds
+                    setTimeout(() => {
+                        closeModalOnly();
+                        
+                        // Reset order
+                        selectedItems = {};
+                        customerInfo = {
+                            name: '',
+                            phone: '',
+                            area: '',
+                            address: '',
+                            notes: ''
+                        };
+                        currentOrderId = null;
+                        orderTimestamp = null;
+                        render();
+                    }, 6000);
+                }
+            }, 800);
+        }
+        
+        // Edit order - close modal and return to form
+        function editOrder() {
+            closeModalOnly();
+            // Focus on the menu so they can edit items
+            window.scrollTo(0, 0);
+        }
+
+        // Close modal
+        function closeModal(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeModalOnly();
+            }
+        }
+
+        // Close modal only (keep order data)
+        function closeModalOnly() {
+            const modal = document.getElementById('orderModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // Render the app
+        function render() {
+            const categories = [...new Set(menuItems.map(item => item.category))];
+            const { selected, subtotal, tax, total } = calculateTotals();
+
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <header>
+                    <h1>🍽️ Sayema's Kitchen</h1>
+                    <p>Click items to add them to your order</p>
+                </header>
+
+                ${isDemo ? `
+                <div class="setup-guide">
+                    <h3>📋 Demo Mode - Connect Your Google Sheet!</h3>
+                    <ol>
+                        <li>Open your Google Sheet with menu items</li>
+                        <li>Go to <strong>File → Share → Publish to web</strong></li>
+                        <li>Select <strong>"Comma-separated values (.csv)"</strong></li>
+                        <li>Click <strong>Publish</strong> and copy the URL</li>
+                        <li>Edit this HTML file and replace <code>YOUR_GOOGLE_SHEET_CSV_URL_HERE</code></li>
+                    </ol>
+                    <div class="sheet-example">
+                        <p style="margin-bottom: 10px; font-weight: 600; color: #1e40af;">Your Google Sheet should look like this:</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Box Size</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Chicken Wings</td>
+                                    <td>Main Course</td>
+                                    <td>18.99</td>
+                                    <td>6 pcs</td>
+                                </tr>
+                                <tr>
+                                    <td>Fried Rice</td>
+                                    <td>Main Course</td>
+                                    <td>15.00</td>
+                                    <td>1 kg</td>
+                                </tr>
+                                <tr>
+                                    <td>Fresh Juice</td>
+                                    <td>Beverages</td>
+                                    <td>6.50</td>
+                                    <td>1 L/bottle</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style="margin-top: 10px; font-size: 0.85rem; color: #1e40af;">💡 <strong>Tip:</strong> Just write "6 pcs" or "1 kg" — "/box" is added automatically!</p>
+                    </div>
+                </div>
+                ` : `
+                <div class="status-bar">
+                    <span class="status-badge">
+                        <span class="dot"></span>
+                        Taking Orders
+                    </span>
+                    <a href="https://www.facebook.com/sayemaskitchen/" target="_blank" class="fb-link-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Visit our Facebook Page</a>
+                </div>
+                `}
+
+                ${selected.length > 0 ? `
+                <div class="cart-warning-top">
+                    <span>⚠️</span>
+                    <span><strong>Important:</strong> Refreshing or closing this page will empty your cart and you'll have to start again!</span>
+                </div>
+                ` : ''}
+
+                <div class="main-grid">
+                    <div class="menu-section">
+                        ${categories.map(category => `
+                            <div class="category-card">
+                                <div class="category-header">
+                                    <h2>${category}</h2>
+                                </div>
+                                <div class="category-items">
+                                    ${menuItems.filter(item => item.category === category).map(item => `
+                                        <div class="menu-item ${selectedItems[item.id] ? 'selected' : ''}" onclick="toggleItem(${item.id})">
+                                            <div class="item-left">
+                                                <div class="checkbox">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                                        <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="item-info">
+                                                    <span class="item-name">${item.name}</span>
+                                                    ${item.boxSize !== 'Per Order' ? `<span class="item-box-size">📦 ${item.boxSize}</span>` : `<span class="item-box-size">🍽️ Per Order</span>`}
+                                                </div>
+                                            </div>
+                                            <div class="item-price-section">
+                                                <span class="item-price">৳${item.price.toFixed(0)}</span>
+                                                <div class="price-per">${item.boxSize !== 'Per Order' ? 'per box' : 'per order'}</div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="order-panel">
+                        <div class="order-card">
+                            <div class="order-header">
+                                <h2>📋 Your Order</h2>
+                                <p>${selected.length} item(s) selected</p>
+                            </div>
+                            <div class="order-content">
+                                ${selected.length === 0 ? `
+                                    <div class="empty-order">
+                                        <div class="icon">🍽️</div>
+                                        <p>No items selected</p>
+                                        <p>Click on items to add them</p>
+                                    </div>
+                                ` : `
+                                    <div class="order-items">
+                                        ${selected.map(item => `
+                                            <div class="order-item">
+                                                <div class="order-item-top">
+                                                    <div>
+                                                        <div class="order-item-name">${item.name}</div>
+                                                        ${item.boxSize !== 'Per Order' ? `<div class="order-item-box">📦 ${item.boxSize}</div>` : `<div class="order-item-box">🍽️ Per Order</div>`}
+                                                    </div>
+                                                    <button class="remove-btn" onclick="event.stopPropagation(); removeItem(${item.id})">
+                                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                            <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                <div class="order-item-bottom">
+                                                    <div class="qty-controls">
+                                                        <span class="qty-label">${item.boxSize !== 'Per Order' ? 'Boxes:' : 'Qty:'}</span>
+                                                        <div class="qty-wrapper">
+                                                            <button class="qty-btn" onclick="event.stopPropagation(); updateQty(${item.id}, -1)">−</button>
+                                                            <span class="qty-value">${item.qty}</span>
+                                                            <button class="qty-btn" onclick="event.stopPropagation(); updateQty(${item.id}, 1)">+</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-subtotal">
+                                                        <div class="each">৳${item.price.toFixed(0)}/${item.boxSize !== 'Per Order' ? 'box' : 'order'}</div>
+                                                        <div class="total">৳${(item.price * item.qty).toFixed(0)}</div>
+                                                        ${item.boxSize !== 'Per Order' && item.totalUnits ? `<div class="total-units">= ${item.totalUnits} ${item.unit}</div>` : ''}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+
+                                    <!-- Order Summary -->
+                                    <div class="order-summary">
+                                        <h4>📊 Order Summary</h4>
+                                        ${selected.map(item => `
+                                            <div class="summary-item">
+                                                <span>${item.name}</span>
+                                                <span>${item.qty} ${item.boxSize !== 'Per Order' ? (item.qty > 1 ? 'boxes' : 'box') : ''}${item.boxSize !== 'Per Order' && item.totalUnits ? ` = ${item.totalUnits} ${item.unit}` : ''}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+
+                                    <div class="order-totals">
+                                        <div class="total-row">
+                                            <span class="label">Subtotal</span>
+                                            <span class="value">৳${subtotal.toFixed(0)}</span>
+                                        </div>
+                                        <div class="grand-total">
+                                            <span class="label">Total (excl. delivery)</span>
+                                            <span class="value">৳${subtotal.toFixed(0)}</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Delivery Information Form Container -->
+                                    <div id="deliveryFormContainer"></div>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <footer>
+                    Sayema's Kitchen • Powered by Google Sheets
+                </footer>
+            `;
+
+            // Render delivery form separately if items are selected
+            if (selected.length > 0) {
+                renderDeliveryForm();
+            }
+        }
+
+        // Separate function to render delivery form (doesn't cause scroll issues)
+        function renderDeliveryForm() {
+            const container = document.getElementById('deliveryFormContainer');
+            if (!container) return;
+
+            container.innerHTML = `
+                <div class="delivery-form">
+                    <h4>🚚 Delivery Information</h4>
+                    
+                    <div class="form-group">
+                        <label>Full Name <span class="required">*</span></label>
+                        <input type="text" id="customerName" placeholder="Enter your full name" oninput="updateCustomerInfo('name', this.value)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Phone Number <span class="required">*</span></label>
+                        <div class="phone-input-wrapper">
+                            <span class="country-code">+88</span>
+                            <input type="tel" id="customerPhone" placeholder="01XXXXXXXXX" oninput="handlePhoneInput(this)" maxlength="11">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Delivery Area <span class="required">*</span></label>
+                        <select id="deliveryArea" onchange="updateCustomerInfo('area', this.value)">
+                            <option value="">-- Select Area --</option>
+                            <option value="inside">📍 Inside Dhaka City</option>
+                            <option value="outside">📍 Outside Dhaka City</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Delivery Address <span class="required">*</span></label>
+                        <textarea id="customerAddress" placeholder="Enter your complete delivery address (House, Road, Area, City)" oninput="updateCustomerInfo('address', this.value)"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Special Instructions (Optional)</label>
+                        <input type="text" id="specialInstructions" placeholder="Any special requests or notes" oninput="updateCustomerInfo('notes', this.value)">
+                    </div>
+                    
+                    <div class="delivery-note">
+                        <span class="icon">📢</span>
+                        <p><strong>Note:</strong> Delivery charge will be calculated and added later based on the distance from our kitchen location (Segunbagicha, Dhaka). We will confirm the final amount via Phone Call/Messenger.</p>
+                    </div>
+                    
+                    <button class="place-order-btn" id="confirmOrderBtn" onclick="confirmOrder()" disabled>
+                        Generate Order 🎉
+                    </button>
+                </div>
+            `;
+
+            // Restore form values from state
+            restoreFormValues();
+        }
+
+        // Restore form values after render
+        function restoreFormValues() {
+            const nameInput = document.getElementById('customerName');
+            const phoneInput = document.getElementById('customerPhone');
+            const areaSelect = document.getElementById('deliveryArea');
+            const addressInput = document.getElementById('customerAddress');
+            const notesInput = document.getElementById('specialInstructions');
+
+            if (nameInput) nameInput.value = customerInfo.name;
+            if (phoneInput) phoneInput.value = customerInfo.phone;
+            if (areaSelect) areaSelect.value = customerInfo.area;
+            if (addressInput) addressInput.value = customerInfo.address;
+            if (notesInput) notesInput.value = customerInfo.notes;
+
+            updateConfirmButtonState();
+        }
+
+        // Initialize
+        fetchMenu();
+    </script>
+</body>
+</html>

@@ -24,7 +24,8 @@ function doPost(e) {
       data.subtotal,                   // G: Item Total
       data.deliveryCharge || 0,        // H: Delivery Charge
       data.grandTotal,                 // I: Grand Total
-      'Pending'                        // J: Status
+      'Pending',                       // J: Status
+      data.comment || ''               // K: Comment
     ];
     
     sheet.appendRow(newRow);
@@ -92,5 +93,6 @@ Your Google Sheet columns should be:
 - **H** - Delivery Charge
 - **I** - Grand Total
 - **J** - Status
+- **K** - Comment
 
 If your columns are in a different order, let me know and I'll adjust the script!
